@@ -1,105 +1,225 @@
-// 1. Определите переменные со значениями 100, 2.5, false, "Hello, java script!" и выведите их в консоль
+// Task 1 Создайте объект ноутбука . Продумайте типы полей и вложенность.
+// 1 Серийный номер 3V5E7EA
+// 2 Модель HP 255 G8
+// 3 Экран:
+// Тип экрана IPS
+// Разрешение 1920x1080
+// 4 Процессор Восьмиядерный AMD Ryzen 7 5700U (1.8 - 4.3 ГГц)
+// 5 Оперативная память 8 ГБ
+// 6 Накопители данных:
+// Объём HDD 256 ГБ SSD
+// Видеокарта AMD Radeon Graphics
+// 7 Корпус:
+// Цвет Серебристый
+// Вес 1,7
+// Габариты (Ш х Г х В) 358 x 242 x 19
 
-let int_var = 100,
-  double_var = 2.5,
-  bool_var = false,
-  str_var = 'Hello? java script!';
+const notebook = {
+  serialNumber: '3V5E7EA',
+  model: 'HP 255 G8',
+  screen: {
+    diagonal: '15.6"',
+    screenType: 'IPS',
+    screenResolution: 'FHD (1920x1080)',
+  },
+  cpu: 'AMD Ryzen 7 5700U (1.8 - 4.3 GHz) 8-cores',
+  ram: {
+    size: '8 Gb',
+    type: 'DDR4',
+    slotCount: 1,
+  },
+  drives: [
+    {
+      type: 'SSD NVME',
+      size: '256 Gb',
+    },
+    {
+      type: 'HDD',
+      size: '1 Tb',
+    },
+    {
+      type: 'card reader',
+      size: 'n/a',
+    },
+  ],
+  graphic: 'AMD Radeon Graphics (internal)',
+  case: {
+    color: 'silver',
+    weight: 1.7,
+    dimensions: {
+      width: 358,
+      depth: 242,
+      height: 19,
+    },
+  },
+};
 
-console.log('int_var = ', int_var);
-console.log('double_var = ', double_var);
-console.log('bool_var = ', bool_var);
-console.log('str_var = ', str_var);
+console.log(notebook);
 
-// 2. Создайте переменные greeting со значением'Hi, ' и userName. Спросите имя пользователя и занесите данное значение в переменную userName. С помощью диалога выведите сообщение с приветствием. Например, 'Hi, Vasya!'.
+// Task 2 Создайте класс который описывает создание нового пользователя с помощью логина и пароля. Сделайте несколько обьектов. Создайте массив из нескольких обьектов
 
-let greeting = 'Hi, ',
-  userName;
-
-userName = prompt('Введите ваше имя: ');
-alert(greeting + userName + '!');
-
-// 3. Выведите числа от 10 до 50, которые кратны 5
-
-let start_range = 10,
-  end_range = 50,
-  step = 5,
-  counter = start_range;
-
-while (counter < end_range) {
-  if (!(counter % step)) console.log(counter, '');
-  counter++;
-}
-
-// 4. Спросите у пользователя номер месяца (это будет число из интервала от 1 до 12) . Определите в какую пору года попадает этот месяц (зима, лето, весна, осень).
-
-let month_number;
-month_number = prompt('Введите номер месяца: ');
-
-switch (Number(month_number)) {
-  case 1:
-  case 2:
-  case 12:
-    console.log('это зимний месяц');
-    break;
-  case 3:
-  case 4:
-  case 5:
-    console.log('это весенний месяц');
-    break;
-  case 6:
-  case 7:
-  case 8:
-    console.log('это летний месяц');
-    break;
-  case 9:
-  case 10:
-  case 11:
-    console.log('это осенний месяц');
-    break;
-  default:
-    console.log('нет такого месяца');
-}
-
-// 5. Подсчитайте сумму четных чисел от 1 до 100
-
-let start = 1,
-  end = 100,
-  sum = 0;
-
-for (let i = start; i < end; i++) {
-  sum += i % 2 ? 0 : i;
-}
-console.log(`Сумма чётных числе от ${start} до ${end} = ${sum}`);
-
-// 6. Вывести знак * столько раз сколько задаст пользователь
-
-let count = NaN;
-while (isNaN(count)) {
-  count = Number(prompt('Сколько раз вывести знак "*"?'));
-  if (isNaN(count)) {
-    console.log('Не верное числовое значение, попробуйте снова.');
-  } else {
-    for (let i = 0; i < count; i++) {
-      console.log('*');
+class User {
+  #login;
+  #password;
+  constructor(login, password) {
+    try {
+      if (login === undefined)
+        throw { name: 'Login error.', message: 'Login undefined.' };
+      if (login.toString().length < 5)
+        throw { name: 'Login error.', message: 'Login too short.' };
+      else this.#login = login.toString();
+      if (password === undefined)
+        throw { name: 'Password error.', message: 'Password undefined.' };
+      if (password.toString().length < 6)
+        throw { name: 'Password error.', message: 'Password too short.' };
+      else this.#password = password.toString();
+    } catch (err) {
+      this.#login = 'anonymous';
+      this.#password = 'password';
+      console.log(`${err.name} ${err.message} Create anonymous user.`);
+    }
+  }
+  get login() {
+    return this.#login;
+  }
+  get password() {
+    return this.#password;
+  }
+  set password(password) {
+    try {
+      if (password === undefined)
+        throw { name: 'Password error.', message: 'Password undefined.' };
+      if (password.toString().length < 6)
+        throw { name: 'Password error.', message: 'Password too short.' };
+      else this.#password = password.toString();
+    } catch (err) {
+      console.log(`${err.name} ${err.message} Password not changed.`);
     }
   }
 }
 
-//7. делить число 1000 на 2 до тех пор, пока не получится число меньше 50. Какое число получилось? сколько раз делили?
-let index = 1000,
-count1 = 0,
-step1 = 2;
-while (index>=50){
-  index /= 2;
-  count1++;
-}
-console.log(`Получилось ${index}. Делили ${count1} раз.`);
+const user1 = new User('useruser', 'qwert');
+console.log(user1);
 
-//8. вывести таблицу значений для функции y = 5x + 2 для значения х от -1 до 1 с шагом 0.1. Вывод вида:
-// x = -1 , y = -3
-// x = -0.9, y = -2.5
-// ....
-// x = 1, y = 7
-for (let x = -1; x <= 1; x += 0.1){
-  console.log(`x = ${Math.round(x*100)/100}, y = ${Math.round((x * 5 + 2)*1000)/1000}`);
+const user2 = new User('Maksimilian', 'meNEwSuperPass');
+console.log(user2);
+
+const users = [];
+for (let i = 0; i < 10; i++)
+  users.push(new User('NewUser' + i, 'NewPassword' + i));
+console.log(users);
+
+// Task 3* Из полученого массива в задании 2 сделайте карту (map). в качестве ключа используйте логин
+
+const usersMap = new Map();
+for (let user of users) {
+  usersMap.set(user.login, user.password);
 }
+console.log(usersMap);
+
+// Task 4
+// 4.1
+// Создайте класс Работника. У каждого объекта обязательно должно быть свойства id, имя, категория и зарплата за месяц. создайте следующие методы:
+// - вывод информации о зарплате
+// - подсчитать заработок за год
+class Employee {
+  #id;
+  #name;
+  #category;
+  #salary = 0;
+  constructor(id, name, category, salary) {
+    if (isNaN(Number(id)))
+      throw { name: 'Id error.', message: 'Id is not a number.' };
+    this.#id = Number(id);
+    this.name = name;
+    this.category = category;
+    this.salary = salary;
+  }
+  get id() {
+    return this.#id;
+  }
+  get name() {
+    return this.#name;
+  }
+  set name(name) {
+    if (name === undefined) throw new Error('Name is undefined.');
+    this.#name = name;
+  }
+  get category() {
+    return this.#category;
+  }
+  set category(category) {
+    if (category === undefined) throw new Error('Category is undefined.');
+    this.#category = category;
+  }
+  get salary() {
+    return this.#salary;
+  }
+  set salary(salary) {
+    if (isNaN(Number(salary))) {
+      console.log(`Error: Salary is not a number. Salary not changed or set to default (0). Current = ${this.salary}`);
+    } else {
+      this.#salary = Number(salary);
+    }
+  }
+  getSalary() {
+    return this.#salary;
+  }
+  getAnnualIncome() {
+    return this.#salary * 12;
+  }
+}
+
+const employee = new Employee(123, 'Nikolay Kurinniy', 'manager', 1000);
+console.log(employee);
+console.log(`Salary of ${employee.name} is ${employee.getSalary()}$.`);
+console.log(`Annual income of ${employee.name} is ${employee.getAnnualIncome()}$`);
+
+// 4.2
+// Создайте класс Совместитель, который наследует Работника. У него есть дополнительные свойства - количество отработанных часов в день, ставка за час. создайте методы:
+// - подсчитайте количество денег что зарабатывает за день
+// - подсчитайте ему зарплату за месяц
+
+// - * подсчитать заработок за год (вызовите от родителя)
+
+class PartTimeEmployee extends Employee {
+  #workTime = 4;
+  #hourlyRate = 0;
+  constructor(id, name, category, workTime, hourlyRate){
+    super(id, name, category, 0);
+    this.workTime = workTime;
+    this.hourlyRate = hourlyRate;
+  }
+  set workTime(workTime){
+    if (isNaN(Number(workTime))) {
+      console.log(`Error: Work time is not a number. Work time not changed or set to default (4 hour). Current = ${this.workTime}`);
+    } else {
+      this.#workTime = Number(workTime);
+    }
+    this.#calcSalary();
+  }
+  get workTime(){
+    return this.#workTime;
+  }
+  set hourlyRate(hourlyRate){
+    if(isNaN(Number(hourlyRate))) {
+      console.log(`Error: Hourly rate is not a number. Hourly rate not changed or set to default (0$). Current = ${this.hourlyRate}`);
+    } else {
+      this.#hourlyRate = Number(hourlyRate);
+    }
+    this.#calcSalary();
+  }
+  get hourlyRate(){
+    return this.#hourlyRate;
+  }
+  getDailySalary(){
+    return this.workTime * this.hourlyRate;
+  }
+  #calcSalary(){
+    this.salary = this.getDailySalary() * ((365 - 11) / 7 * 5) / 12;
+  }
+}
+
+const partTimeEmployee = new PartTimeEmployee(254, 'Ann Rekina', 'worker', 3, 50);
+console.log(partTimeEmployee);
+console.log(`Annual salary of ${partTimeEmployee.name} is ${partTimeEmployee.getAnnualIncome().toFixed(2)}$`);
